@@ -25,5 +25,5 @@ gulp.task 'scripts', ->
   .pipe buffer()
   .pipe gulpif debug, sourcemaps.init(loadMaps: true)
   .pipe gulpif !debug, uglify() # uglify
-  .pipe gulpif debug, sourcemaps.write()
+  .pipe gulpif debug, sourcemaps.write('.')
   .pipe gulp.dest 'dist/js'

@@ -23,5 +23,5 @@ gulp.task 'styles', ->
     .pipe concat 'index.css'
     .pipe prefix browsers: ['last 2 versions']
     .pipe gulpif !debug, minify()
-    .pipe gulpif debug, sourcemaps.write()
+    .pipe gulpif debug, sourcemaps.write('.')
     .pipe gulp.dest 'dist/css'
