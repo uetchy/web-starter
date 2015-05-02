@@ -1,10 +1,11 @@
 {
   "name": "gulp-starter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "authors": [],
-  "license": "ISC",
+  "license": "MIT",
   "private": true,
   "dependencies": {
-    "styles": "https://github.com/uetchy/styles.git"
+    "styles": "https://github.com/uetchy/styles.git",
+    "sanitize-css": "~1.1.0"
   }
 }
