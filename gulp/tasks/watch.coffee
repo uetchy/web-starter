@@ -1,14 +1,17 @@
-gulp      = require 'gulp'
-webserver = require 'gulp-webserver'
-watch     = require 'gulp-watch'
+gulp        = require 'gulp'
+watch       = require 'gulp-watch'
+browserSync = require 'browser-sync'
+reload      = browserSync.reload
 
 gulp.task 'watch', ['build'], ->
-  # watch files
+  # watch src/
   watch 'src/scripts/**/*', -> gulp.start 'scripts'
-  watch 'src/styles/**/*', -> gulp.start 'styles'
+  watch 'src/styles/**/*',  -> gulp.start 'styles'
   watch 'src/markups/**/*', -> gulp.start 'markups'
 
-  # start server and livereload assets
-  gulp.src 'dist'
-    .pipe webserver
-      livereload: true
+  # watch dist/
+  browserSync
+    server:
+      baseDir: 'dist'
+
+  gulp.watch ['*.html', 'css/**/*.css', 'js/**/*.js'], {cwd: 'dist'}, reload
