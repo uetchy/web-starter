@@ -1,7 +1,6 @@
-gulp = require 'gulp'
-
+gulp      = require 'gulp'
 webserver = require 'gulp-webserver'
-watch = require 'gulp-watch'
+watch     = require 'gulp-watch'
 
 gulp.task 'watch', ['build'], ->
   # watch files

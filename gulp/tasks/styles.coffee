@@ -1,13 +1,12 @@
-gulp = require 'gulp'
-
-sass = require 'gulp-sass'
-concat = require 'gulp-concat'
-prefix = require 'gulp-autoprefixer'
-minify = require 'gulp-minify-css'
+gulp       = require 'gulp'
+sass       = require 'gulp-sass'
+concat     = require 'gulp-concat'
+prefix     = require 'gulp-autoprefixer'
+minify     = require 'gulp-minify-css'
 sourcemaps = require 'gulp-sourcemaps'
-gulpif = require 'gulp-if'
+gulpif     = require 'gulp-if'
 decomposer = require 'decomposer'
-argv = require('yargs').argv
+{argv}     = require 'yargs'
 
 debug = !argv.production
 
@@ -17,7 +16,6 @@ gulp.task 'styles', ->
     .pipe decomposer()
     .pipe sass
       indentedSyntax: true # .sass
-      includePaths: ['bower_components']
     .on 'error', (err) ->
       console.error 'Error', err.message
     .pipe concat 'index.css'

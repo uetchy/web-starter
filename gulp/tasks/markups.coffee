@@ -1,8 +1,7 @@
 gulp = require 'gulp'
-
-slim = require 'gulp-slim'
+jade = require 'gulp-jade'
 
 gulp.task 'markups', ->
-  gulp.src 'src/markups/*.slim'
-    .pipe slim()
+  gulp.src 'src/markups/*.jade'
+    .pipe jade()
     .pipe gulp.dest 'dist'

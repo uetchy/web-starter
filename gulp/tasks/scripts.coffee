@@ -1,12 +1,11 @@
-gulp = require 'gulp'
-
+gulp       = require 'gulp'
 browserify = require 'browserify'
-source = require 'vinyl-source-stream'
-buffer = require 'vinyl-buffer'
-uglify = require 'gulp-uglify'
+source     = require 'vinyl-source-stream'
+buffer     = require 'vinyl-buffer'
+uglify     = require 'gulp-uglify'
 sourcemaps = require 'gulp-sourcemaps'
-gulpif = require 'gulp-if'
-argv = require('yargs').argv
+gulpif     = require 'gulp-if'
+{argv}     = require 'yargs'
 
 debug = !argv.production
 

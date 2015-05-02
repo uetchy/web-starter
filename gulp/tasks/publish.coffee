@@ -1,8 +1,7 @@
-gulp = require 'gulp'
-
+gulp       = require 'gulp'
 awspublish = require 'gulp-awspublish'
-rename = require 'gulp-rename'
-fs = require 'fs'
+rename     = require 'gulp-rename'
+fs         = require 'fs'
 
 gulp.task 'publish', ['build'], ->
   publisher = awspublish.create JSON.parse(fs.readFileSync('./aws.json'))
