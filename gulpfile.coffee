@@ -3,11 +3,9 @@ gulp        = require 'gulp'
 del         = require 'del'
 gulpif      = require 'gulp-if'
 notify      = require 'gulp-notify'
-watch       = require 'gulp-watch'
 concat      = require 'gulp-concat'
 sourcemaps  = require 'gulp-sourcemaps'
 browserSync = require 'browser-sync'
-reload      = browserSync.reload
 
 # Scripts
 browserify  = require 'browserify'
@@ -110,11 +108,11 @@ gulp.task 'watchify', ->
 
 gulp.task 'watch', ['watchify'], ->
   # watch src/
-  watch 'src/styles/**/*.sass', -> gulp.start 'styles'
-  watch 'src/**/*.jade',        -> gulp.start 'markups'
+  gulp.watch 'src/styles/**/*.sass', ['styles']
+  gulp.watch 'src/**/*.jade', ['markups']
 
   # watch public/
-  browserSync
-    server:
-      baseDir: 'public'
-  gulp.watch ['**/*.html', '**/*.css', '**/*.js'], {cwd: 'public'}, reload
+  # browserSync
+  #   server:
+  #     baseDir: 'public'
+  # gulp.watch ['**/*.html', '**/*.css', '**/*.js'], {cwd: 'public'}, browserSync.reload
