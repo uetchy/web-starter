@@ -1,11 +1,8 @@
+window.jQuery = window.$ = require 'jquery'
+Velocity = require 'velocity-animate'
+domready = require 'domready'
+
 MyModule = require './MyModule'
 
-do (document) ->
-  'use strict'
-
-  init = ->
-    body = document.querySelector 'body'
-    # do something
-
-  document.addEventListener 'DOMContentLoaded', ->
-    init()
+domready ->
+  body = document.querySelector 'body'

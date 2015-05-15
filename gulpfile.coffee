@@ -1,11 +1,12 @@
 gulp        = require 'gulp'
 {argv}      = require 'yargs'
-del         = require 'del'
 gulpif      = require 'gulp-if'
 notify      = require 'gulp-notify'
 concat      = require 'gulp-concat'
 sourcemaps  = require 'gulp-sourcemaps'
+plumber     = require 'gulp-plumber'
 browserSync = require 'browser-sync'
+del         = require 'del'
 
 # Scripts
 browserify  = require 'browserify'
@@ -23,47 +24,53 @@ prefix      = require 'gulp-autoprefixer'
 minify      = require 'gulp-minify-css'
 decomposer  = require 'decomposer'
 
+# Publish
+awspublish  = require 'gulp-awspublish'
+rename      = require 'gulp-rename'
+fs          = require 'fs'
+
 debug = !argv.production
 
-gulp.task 'default', ['build']
+gulp.task 'default', ['watch']
 gulp.task 'build', [
+  'clean'
   'markups'
   'scripts'
   'styles'
 ]
 
-gulp.task 'clean',
-  del.bind(null, ['public', 'tmp', '**/*.log'])
-
-gulp.task 'copy', ->
-  gulp.src ['src/assets/*'], base: 'src'
-    .pipe gulp.dest 'public'
+gulp.task 'clean', (cb) ->
+  del([
+    'public/**/*.map'
+  ], cb)
 
 gulp.task 'markups', ->
   gulp.src 'src/**/*.jade'
+    .pipe plumber()
     .pipe jade()
+    .on "error", notify.onError(title: "Markups")
     .pipe gulp.dest 'public'
 
 gulp.task 'styles', ->
   gulp.src 'src/styles/**/*.sass'
+    .pipe plumber()
     .pipe gulpif debug, sourcemaps.init()
     .pipe decomposer()
     .pipe sass
       indentedSyntax: true
-    .on 'error', (err) ->
-      console.error 'Error', err.message
+    .on "error", notify.onError(title: 'Styles')
     .pipe concat 'index.css'
     .pipe prefix browsers: ['last 2 versions']
-    .pipe gulpif !debug, minify()
+    .pipe minify()
     .pipe gulpif debug, sourcemaps.write('.')
     .pipe gulp.dest 'public/css'
 
 handleErrors = ->
   args = Array.prototype.slice.call arguments
   notify.onError
-      title:   "Compile Error"
-      message: "<%= error.message %>"
-    .apply @, args
+    title: 'Compile Error'
+    message: "<%= error.message %>"
+  .apply @, args
   @emit 'end'
 
 buildScript = (watch) ->
@@ -82,12 +89,13 @@ buildScript = (watch) ->
 
   bundler.transform 'coffeeify'
   bundler.transform 'debowerify'
+  bundler.transform 'browserify-shim'
 
   bundle = ->
     bundler
       .bundle()
       .on 'error', handleErrors
-      .pipe source 'bundle.js'
+      .pipe source 'index.js'
       .pipe buffer()
       .pipe gulpif debug,  sourcemaps.init(loadMaps: true)
       .pipe gulpif !debug, uglify()
@@ -95,8 +103,6 @@ buildScript = (watch) ->
       .pipe gulp.dest 'public/js'
 
   bundler.on 'update', -> bundle()
-  bundler.on 'time', (time) ->
-    console.log time
 
   bundle()
 
@@ -109,10 +115,26 @@ gulp.task 'watchify', ->
 gulp.task 'watch', ['watchify'], ->
   # watch src/
   gulp.watch 'src/styles/**/*.sass', ['styles']
-  gulp.watch 'src/**/*.jade', ['markups']
+  gulp.watch 'src/*.jade', ['markups']
 
   # watch public/
-  # browserSync
-  #   server:
-  #     baseDir: 'public'
-  # gulp.watch ['**/*.html', '**/*.css', '**/*.js'], {cwd: 'public'}, browserSync.reload
+  browserSync
+    notify: false
+    server:
+      baseDir: 'public'
+
+  gulp.watch ['**/*'], {cwd: 'public'}, browserSync.reload
+
+gulp.task 'publish', ['build'], ->
+  publisher = awspublish.create JSON.parse(fs.readFileSync('./aws.json'))
+
+  headers =
+    'Cache-Control': 'max-age=315360000, no-transform, public'
+
+  gulp.src 'public/**/*'
+    # .pipe rename (path) ->
+    #   path.dirname = '/path/to/publish/' + path.dirname
+    #   return
+    .pipe publisher.publish(headers)
+    .pipe publisher.cache()
+    .pipe awspublish.reporter()

@@ -1,9 +1,5 @@
 {
   "name": "web-starter",
-  "version": "1.0.0",
-  "authors": [],
-  "license": "MIT",
-  "private": true,
   "dependencies": {
     "styles": "https://github.com/uetchy/styles.git",
     "sanitize-css": "~1.1.0"
