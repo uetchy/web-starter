@@ -1,49 +1,59 @@
 {
   "name": "web-starter",
-  "version": "1.0.0",
-  "description": "Starter kit of Gulp for web development",
+  "description": "Web Starter Kit",
+  "version": "0.0.0",
+  "main": "src/index.html",
   "scripts": {
-    "build": "gulp build --production"
-  },
-  "author": [
-    "Yasuaki Uechi <y@uechi.io>"
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "bower": "^1.4.1",
-    "browser-sync": "^2.7.1",
-    "browserify": "^16.2.3",
-    "browserify-shim": "^3.8.6",
-    "coffee-script": "^1.9.2",
-    "coffeeify": "^3.0.1",
-    "debowerify": "^1.2.1",
-    "decomposer": "^1.0.1",
-    "del": "^4.1.1",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^6.1.0",
-    "gulp-awspublish": "^4.0.0",
-    "gulp-concat": "^2.5.2",
-    "gulp-if": "^2.0.2",
-    "gulp-jade": "^1.0.0",
-    "gulp-minify-css": "^1.1.1",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglify": "^3.0.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0",
-    "watchify": "^3.2.1",
-    "yargs": "^13.2.2"
+    "build": "yarn clean && parcel build src/index.html --public-url ./ --no-source-maps --detailed-report --out-dir=./dist",
+    "build-production": "yarn clean && parcel build src/index.html --no-source-maps --detailed-report --out-dir=./dist",
+    "clean": "shx rm -rf ./dist .cache",
+    "dev:parcel": "parcel serve src/index.html",
+    "release": "yarn build && now",
+    "start": "run-p dev:*"
   },
   "dependencies": {
-    "domready": "^1.0.8",
-    "jquery": "^3.3.1",
-    "moment": "^2.10.3",
-    "velocity-animate": "^1.2.2"
+    "isomorphic-unfetch": "^3.0.0",
+    "load-asset": "^1.2.0",
+    "particlesjs": "^2.2.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-content-loader": "^4.2.1",
+    "react-dom": "^16.8.6",
+    "react-ga": "^2.5.7",
+    "react-waypoint": "^9.0.2",
+    "rellax": "^1.9.1",
+    "styled-components": "^4.2.1"
   },
-  "browserify-shim": {
-    "jquery": "$"
-  }
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "autoprefixer": "^9.5.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.13.0",
+    "husky": "^2.1.0",
+    "lint-staged": "^8.1.5",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.11.0",
+    "parcel-plugin-inlinesvg": "^0.1.1",
+    "postcss-modules": "^1.4.1",
+    "prettier": "^1.17.0",
+    "pretty-quick": "^1.11.0",
+    "sass": "^1.20.3",
+    "shx": "^0.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && pretty-quick --staged"
+    }
+  },
+  "license": "unlicense",
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "private": true
 }

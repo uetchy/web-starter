@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "name": "web-starter",
+  "builds": [
+    {
+      "src": "/dist/**",
+      "use": "@now/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/dist/index.html",
+      "headers": {
+        "cache-control": "s-maxage=3600"
+      }
+    },
+    {
+      "src": "/(.+)",
+      "dest": "/dist/$1",
+      "headers": {
+        "cache-control": "s-maxage=3600, max-age=604800"
+      }
+    }
+  ],
+  "github": {
+    "enabled": false
+  }
+}
