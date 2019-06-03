@@ -1,7 +1,0 @@
-{
-  "name": "web-starter",
-  "dependencies": {
-    "styles": "https://github.com/uetchy/styles.git",
-    "sanitize-css": "~1.1.0"
-  }
-}
