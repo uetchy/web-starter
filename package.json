@@ -29,7 +29,7 @@
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.6.0",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.13.0",
     "husky": "^2.4.1",
