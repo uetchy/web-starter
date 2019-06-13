@@ -21,7 +21,7 @@
     "react-dom": "^16.8.6",
     "react-ga": "^2.5.7",
     "react-waypoint": "^9.0.2",
-    "rellax": "^1.9.1",
+    "rellax": "^1.10.0",
     "styled-components": "^4.3.1"
   },
   "devDependencies": {
