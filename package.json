@@ -40,7 +40,7 @@
     "postcss-modules": "^1.4.1",
     "prettier": "^1.17.0",
     "pretty-quick": "^1.11.0",
-    "sass": "^1.20.3",
+    "sass": "^1.21.0",
     "shx": "^0.3.2"
   },
   "husky": {
